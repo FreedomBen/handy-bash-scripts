@@ -28,7 +28,7 @@
  # grep --color --line-number $what $(echo $(eval find $where -type f $filename))
 
  # Do this complexity to avoid the too many args problem with grep
- find $where -type f $filename > $TEMP_FILE
+ eval find $where -type f $filename > $TEMP_FILE
  numlines=$(cat ~/.findreftempfile | wc -l)
  for (( i=1; ((1)); i+=1000 ))
  do
