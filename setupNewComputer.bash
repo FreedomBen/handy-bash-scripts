@@ -84,6 +84,7 @@ apt-get -y install adobe-flashplugin
 apt-get -y install handbrake-gtk
 apt-get -y install ardour
 apt-get -y install git
+apt-get -y install git-svn
 apt-get -y install nmap
 apt-get -y install wireshark
 apt-get -y install python
