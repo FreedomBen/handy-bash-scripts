@@ -28,19 +28,19 @@ apt-get -y install apport-hooks-medibuntu
 
 # install common codecs
 apt-get -y install non-free-codecs 
-apt-get install -y libxine1-ffmpeg 
-apt-get install -y gxine 
-apt-get install -y mencoder 
-apt-get install -y totem-mozilla 
-apt-get install -y icedax 
-apt-get install -y tagtool 
-apt-get install -y easytag 
-apt-get install -y id3tool 
-apt-get install -y lame 
-apt-get install -y nautilus-script-audio-convert 
-apt-get install -y libmad0 
-apt-get install -y mpg321 
-apt-get install -y mpg123libjpeg-progs
+apt-get -y install libxine1-ffmpeg 
+apt-get -y install gxine 
+apt-get -y install mencoder 
+apt-get -y install totem-mozilla 
+apt-get -y install icedax 
+apt-get -y install tagtool 
+apt-get -y install easytag 
+apt-get -y install id3tool 
+apt-get -y install lame 
+apt-get -y install nautilus-script-audio-convert 
+apt-get -y install libmad0 
+apt-get -y install mpg321 
+apt-get -y install mpg123libjpeg-progs
 
 # ability to play encrypted DVDs, install libdvdcss2
 apt-get install libdvdcss2 && /usr/share/doc/libdvdread4/./install-css.sh
