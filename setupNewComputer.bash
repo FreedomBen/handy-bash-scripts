@@ -96,6 +96,8 @@ apt-get -y install xchat
 apt-get -y install nautilus-dropbox
 apt-get -y install calibre
 apt-get -y install fbreader
+apt-get -y install gimp
+apt-get -y install pinta
 
 
 # install dropbox
