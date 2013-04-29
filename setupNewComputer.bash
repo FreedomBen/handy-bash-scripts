@@ -89,6 +89,10 @@ apt-get -y install nmap
 apt-get -y install wireshark
 apt-get -y install python
 apt-get -y install python3
+apt-get -y install python-crypto
+apt-get -y install python-qt4
+apt-get -y install python-gtk2
+apt-get -y install python-pip
 apt-get -y install bc
 apt-get -y install gpodder
 apt-get -y install unetbootin
@@ -99,6 +103,8 @@ apt-get -y install fbreader
 apt-get -y install gimp
 apt-get -y install pinta
 
+# install Pymazon
+pip install pymazon
 
 # install dropbox
 # cd $HOME/Downloads && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
