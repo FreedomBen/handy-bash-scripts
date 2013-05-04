@@ -102,6 +102,7 @@ apt-get -y install calibre
 apt-get -y install fbreader
 apt-get -y install gimp
 apt-get -y install pinta
+apt-get -y install lvm2
 
 # install Pymazon
 pip install pymazon
