@@ -63,8 +63,8 @@ apt-get -y install file-roller
 
 # install the packages
 apt-get -y install wine
-apt-get -y install jack
-apt-get -y install jackd
+# apt-get -y install jack
+# apt-get -y install jackd
 apt-get -y install linux-headers-generic
 apt-get -y install terminator
 apt-get -y install vim
@@ -103,6 +103,7 @@ apt-get -y install fbreader
 apt-get -y install gimp
 apt-get -y install pinta
 apt-get -y install lvm2
+apt-get -y install font-manager
 
 # install Pymazon
 pip install pymazon
