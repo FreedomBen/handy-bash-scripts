@@ -19,6 +19,9 @@ add-apt-repository ppa:gnome3-team/gnome3
 # can be undone with this line, and should before doing a dist-upgrade
 # ppa-purge ppa:gnome3-team/gnome3
 
+# Ubuntu Wine team PPA
+add-apt-repository ppa:ubuntu-wine/ppa
+
 # update the packages to install the latest build of the packages
 apt-get -y update
 
@@ -63,6 +66,7 @@ apt-get -y install file-roller
 
 # install the packages
 apt-get -y install wine
+apt-get -y install winetricks
 # apt-get -y install jack
 # apt-get -y install jackd
 apt-get -y install linux-headers-generic
