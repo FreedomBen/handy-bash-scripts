@@ -22,6 +22,9 @@ add-apt-repository ppa:gnome3-team/gnome3
 # Ubuntu Wine team PPA
 add-apt-repository ppa:ubuntu-wine/ppa
 
+# Netflix support
+add-apt-repository ppa:ehoover/compholio
+
 # update the packages to install the latest build of the packages
 apt-get -y update
 
@@ -108,6 +111,7 @@ apt-get -y install gimp
 apt-get -y install pinta
 apt-get -y install lvm2
 apt-get -y install font-manager
+apt-get -y install netflix-desktop
 
 # install Pymazon
 pip install pymazon
