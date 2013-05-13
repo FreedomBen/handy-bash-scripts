@@ -112,6 +112,7 @@ apt-get -y install pinta
 apt-get -y install lvm2
 apt-get -y install font-manager
 apt-get -y install netflix-desktop
+apt-get -y install hal # For Amazon Prime
 
 # install Pymazon
 pip install pymazon
