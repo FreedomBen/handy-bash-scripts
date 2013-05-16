@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+### This script is written for Ubuntu, at this point in time 13.04 ###
+
 echo "This script will install a bunch of packages that Ben deems necessary for a proper system."
 
 # check for root.  Don't continue if we aren't root
