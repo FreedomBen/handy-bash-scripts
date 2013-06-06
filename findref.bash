@@ -1,27 +1,27 @@
 #!/bin/bash
 
- TEMP_FILE=$HOME/.findreftempfile
+TEMP_FILE=$HOME/.findreftempfile
 
- # if third arg is present use that as starting location, else use current path
- if [ -z "$3" ]; then
+# if second arg is present use that as starting location, else use current path
+ if [ -z "$2" ]; then
      where='.'
  else 
-     where=$3
+     where=$2
  fi
 
  # if first are is not present, print usage
  if [ -z "$1" ]; then
-     echo "Usage: findref \"what text (RegEx) to look for\" \"[filenames to check (must match pattern)]\" \"[starting location (root dir)]\""
+     echo "Usage: findref \"what text (RegEx) to look for\" \"[starting location (root dir)]\" \"[filenames to check (must match pattern)]\""
      exit
  else
      what=$(echo $1 | sed 's/ /\\s/g') # convert spaces to regex space
  fi
 
- # if second arg is not present, don't restrict the file name
- if [ -z "$2" ]; then
+ # if third arg is not present, don't restrict the file name
+ if [ -z "$3" ]; then
      filename=""
  else
-     filename="-iname '$2'"
+     filename='-iname "$3"'
  fi
 
  # Original grep command - preserved for historical value
