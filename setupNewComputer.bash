@@ -17,6 +17,9 @@ sudo -E wget --output-document=/etc/apt/sources.list.d/medibuntu.list http://www
 # handbrake repository
 add-apt-repository ppa:stebbins/handbrake-releases
 
+# nixnote respository (Evernote clone)
+sudo add-apt-repository ppa:vincent-c/nevernote
+
 # Gnome 3 Team repository for latest and greatest that's released
 add-apt-repository ppa:gnome3-team/gnome3
 # can be undone with this line, and should before doing a dist-upgrade
@@ -116,6 +119,7 @@ apt-get -y install lvm2
 apt-get -y install font-manager
 apt-get -y install netflix-desktop
 apt-get -y install hal # For Amazon Prime
+apt-get -y install nixnote # evernote clone
 
 # install Pymazon
 pip install pymazon
