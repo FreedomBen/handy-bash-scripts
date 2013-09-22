@@ -7,7 +7,7 @@ do
         echo -e "\033[0;34mPlease enter credentials if requested\033[0m"
         oldDir=$(pwd)
         cd $file
-        git pull -r
+        git pull -r && git push
         cd $oldDir
     else
         echo -e "\033[0;31mNo Git repo in this folder\033[0m"
