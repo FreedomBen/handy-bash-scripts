@@ -12,7 +12,7 @@ int main( int argc, char **argv )
         char str[150];
         snprintf( str, 149, "iwconfig wlan0 txpower %s", argv[1] );
         int userid = getuid();
-        setuid( 0 );
+        setuid( geteuid() );
         system( str );
         setuid( userid );
         system( "iwconfig wlan0" );
