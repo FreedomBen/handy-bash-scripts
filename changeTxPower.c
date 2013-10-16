@@ -1,4 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int isOnlyInts( int length, char *str )
+{
+    /* must be ascii 48 to 57 inclusive */
+    int i;
+    for( i=0; i<length; ++i )
+    {
+        if( str[i] == '\x00' )
+            continue;
+
+        if( str[i] < '0' || str[i] > '9' )
+            return 0;
+    }
+    return 1;
+}
 
 int main( int argc, char **argv )
 {
@@ -9,17 +26,34 @@ int main( int argc, char **argv )
     }
     else if( argc == 2 )
     {
-        char str[150];
-        snprintf( str, 149, "iwconfig wlan0 txpower %s", argv[1] );
-        int userid = getuid();
-        setuid( geteuid() );
-        system( str );
-        setuid( userid );
-        system( "iwconfig wlan0" );
-        printf( "\nSet Tx Power to: %s\n", argv[1] );
+        /* make sure argv[1] contains only integers for security.  Crap on the floor if it doesn't */
+        if( isOnlyInts( strlen( argv[1] ), argv[1] ) )
+        {
+            int strSize = strlen( argv[1] ) + 30;
+            char str[strSize];
+            int i;
+            for( i=0; i<strSize; ++i )
+                str[i] = '\x00';
+
+            snprintf( str, strSize - 1, "iwconfig wlan0 txpower %s", argv[1] );
+
+            int userid = getuid();
+            setuid( geteuid() );
+            system( str );
+            setuid( userid );
+            system( "iwconfig wlan0" );
+            printf( "\nSet Tx Power to: %s\n", argv[1] );
+            exit( 0 );
+        }
+        else
+        {
+            printf( "\nArg was invalid.  Must include only integers\n" );
+            exit( 1 );
+        }
     }
     else
     {
-        printf( "\nerror\n" );
+        printf( "\nError: Too many args\n" );
+        exit( 1 );
     }
 }
