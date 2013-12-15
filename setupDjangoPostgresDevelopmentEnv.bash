@@ -5,8 +5,6 @@
 
 echo -e "This script will install a bunch of packages and stuff for developing with Django and Postgres\n"
 
-exit
-
 # check for root.  Don't continue if we aren't root
 if [ "$(id -u)" != "0" ]; then
     echo "Cannot setup. Must be root."
@@ -32,6 +30,9 @@ fi
 
 pip install django
 pip install psycopg2
+pip install unipath
+pip install pyflakes
+pip install pep8
 
 echo -e "\nDone!  For configuring Django stuff you may find this website helpful:  https://docs.webfaction.com/software/django/config.html"
 
