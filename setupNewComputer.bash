@@ -25,6 +25,9 @@ add-apt-repository ppa:gnome3-team/gnome3
 # can be undone with this line, and should before doing a dist-upgrade
 # ppa-purge ppa:gnome3-team/gnome3
 
+### Are we on a System 76 box?  If so add the System76 PPA
+# add-apt-repository ppa:system76-dev/stable
+
 # Ubuntu Wine team PPA
 add-apt-repository ppa:ubuntu-wine/ppa
 
