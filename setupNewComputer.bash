@@ -34,6 +34,10 @@ add-apt-repository ppa:ubuntu-wine/ppa
 # Netflix support
 add-apt-repository ppa:ehoover/compholio
 
+# VirtualBox key from Oracle
+wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+echo "deb http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" >> /etc/apt/sources.list
+
 # update the packages to install the latest build of the packages
 apt-get -y update
 
@@ -123,6 +127,7 @@ apt-get -y install font-manager
 apt-get -y install netflix-desktop
 apt-get -y install hal # For Amazon Prime
 apt-get -y install nixnote # evernote clone
+apt-get -y install virtualbox-4.3
 
 # install Pymazon
 pip install pymazon
