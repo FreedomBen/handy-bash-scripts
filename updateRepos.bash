@@ -4,12 +4,14 @@
 ONE='webgoat'
 TWO='django$'
 THREE='practice'
+FOUR='linux-stable'
 
 onIgnoreList () 
 {
     echo "$1" | grep "$ONE" > /dev/null && return 0
     echo "$1" | grep "$TWO" > /dev/null && return 0
     echo "$1" | grep "$THREE" > /dev/null && return 0
+    echo "$1" | grep "$FOUR" > /dev/null && return 0
     return 1
 }
 
