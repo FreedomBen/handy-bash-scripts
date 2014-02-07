@@ -1,8 +1,14 @@
 #!/bin/bash
+
+DEFAULT_DIR="$HOME/.config/transmission/blocklists/"
+DEFAULT_FILE="blocklist.txt"
  
 if [ -z "$1" ]
 then
-    OUT="$HOME/.config/transmission/blocklists/blocklist.txt"
+    OUT="${DEFAULT_DIR}${DEFAULT_FILE}"
+    if [ ! -d "$DEFAULT_DIR" ]; then
+        mkdir -p "$DEFAULT_DIR"
+    fi
 else
     OUT="$1"
 fi
