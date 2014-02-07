@@ -157,6 +157,8 @@ yum -y install gimp
 yum -y install pinta
 yum -y install lvm2
 yum -y install font-manager
+yum -y install transmission
+# yum -y install deluge
 
 # install Pymazon
 pip install pymazon
