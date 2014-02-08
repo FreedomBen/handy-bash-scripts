@@ -86,7 +86,7 @@ echo "$VAR" > /etc/yum.repos.d/insync.repo
 
 
 # Insync prompts the user so get that installed early
-yum -y install insync
+yum -y install insync insync-nautilus
 
 
 # group installs
