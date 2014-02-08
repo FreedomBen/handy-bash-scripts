@@ -47,7 +47,15 @@ fi
 
 
 # Oracle Virtual Box
-wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | rpm --import -
+read -r -d '' VAR <<"EOF"
+[virtualbox]
+name=Fedora $releasever - $basearch - VirtualBox
+baseurl=http://download.virtualbox.org/virtualbox/rpm/fedora/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
+EOF
+echo "$VAR" > /etc/yum.repos.d/virtualbox.repo
 
 
 # Add Google-Chrome repo
@@ -100,7 +108,7 @@ yum -y install gnome-tweak-tool
 yum -y install xclip
 
 yum -y install dkms
-yum -y install virtualbox-4.3
+yum -y install VirtualBox-4.3
 
 
 
