@@ -42,6 +42,7 @@ if [ "$DROPBOX" == "y" -o "$DROPBOX" == "Y" ]; then
     prevdir=$(pwd)
     cd $HOME/Downloads && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
     $HOME/.dropbox-dist/dropboxd
+    yum -y install nautilus-dropbox
     cd $prevdir
 fi
 
@@ -107,6 +108,8 @@ yum -y install dconf-editor
 yum -y install gnome-tweak-tool
 yum -y install xclip
 
+yum -y install kernel-devel
+yum -y install kernel-doc
 yum -y install dkms
 yum -y install VirtualBox-4.3
 
@@ -130,8 +133,6 @@ yum -y install file-roller
 
 # install the packages
 yum -y install wine
-yum -y install winetricks
-yum -y install linux-headers-generic
 yum -y install terminator
 yum -y install vim
 yum -y install firefox
@@ -158,7 +159,6 @@ yum -y install bc
 yum -y install gpodder
 yum -y install unetbootin
 yum -y install xchat
-yum -y install nautilus-dropbox
 yum -y install calibre
 yum -y install fbreader
 yum -y install gimp
