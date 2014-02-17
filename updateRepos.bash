@@ -5,6 +5,9 @@ ONE='webgoat'
 TWO='django$'
 THREE='practice'
 FOUR='linux-stable'
+FIVE='updf'
+SIX='wordament'
+SEVEN='rss-fixer'
 
 onIgnoreList () 
 {
@@ -12,6 +15,9 @@ onIgnoreList ()
     echo "$1" | grep "$TWO" > /dev/null && return 0
     echo "$1" | grep "$THREE" > /dev/null && return 0
     echo "$1" | grep "$FOUR" > /dev/null && return 0
+    echo "$1" | grep "$FIVE" > /dev/null && return 0
+    echo "$1" | grep "$SIX" > /dev/null && return 0
+    echo "$1" | grep "$SEVEN" > /dev/null && return 0
     return 1
 }
 
