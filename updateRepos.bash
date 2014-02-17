@@ -8,6 +8,7 @@ FOUR='linux-stable'
 FIVE='updf'
 SIX='wordament'
 SEVEN='rss-fixer'
+EIGHT='infa719'
 
 onIgnoreList () 
 {
@@ -18,6 +19,7 @@ onIgnoreList ()
     echo "$1" | grep "$FIVE" > /dev/null && return 0
     echo "$1" | grep "$SIX" > /dev/null && return 0
     echo "$1" | grep "$SEVEN" > /dev/null && return 0
+    echo "$1" | grep "$EIGHT" > /dev/null && return 0
     return 1
 }
 
