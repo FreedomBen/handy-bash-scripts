@@ -116,6 +116,7 @@ yum -y install VirtualBox-4.3
 
 
 # support for many different compression formats
+yum -y install qalculate-gtk # a freaking awesome calculator
 yum -y install unace 
 yum -y install unrar 
 yum -y install zip 
