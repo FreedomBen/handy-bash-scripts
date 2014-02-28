@@ -4,7 +4,7 @@
 ONE='webgoat'
 TWO='django$'
 THREE='practice'
-FOUR='linux-stable'
+FOUR='linux'
 FIVE='updf'
 SIX='wordament'
 SEVEN='rss-fixer'
