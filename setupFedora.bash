@@ -112,7 +112,7 @@ yum -y install kernel-devel
 yum -y install kernel-doc
 yum -y install dkms
 yum -y install VirtualBox-4.3
-
+yum -y install recordmydesktop
 
 
 # support for many different compression formats
