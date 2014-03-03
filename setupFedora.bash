@@ -13,6 +13,7 @@ fi
 
 read -p "Do you want to install Netflix?: " NETFLIX
 read -p "Do you want to install Dropbox?: " DROPBOX
+read -p "Do you want to install Handbrake?: " HANDBRAKE
 
 # generate SSH keys if necessary
 if [ -f "$HOME/.ssh/id_rsa.pub" ]; then
@@ -34,6 +35,32 @@ yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusi
 if [ "$NETFLIX" == "y" -o "$NETFLIX" == "Y" ]; then
     yum -y install http://sourceforge.net/projects/postinstaller/files/fedora/releases/19/x86_64/updates/wine-silverligh-1.6-3.fc19.x86_64.rpm
     yum -y install http://sourceforge.net/projects/postinstaller/files/fedora/releases/19/x86_64/updates/netflix-desktop-0.7.0-7.fc19.noarch.rpm
+fi
+
+
+# Handbrake
+if [ "$HANDBRAKE" == "y" -o "$HANDBRAKE" == "Y" ]; then
+
+read -r -d '' VAR <<"EOF"
+[fedora-HandBrake]
+name=Open source multiplatform video transcoder
+baseurl=http://negativo17.org/repos/HandBrake/fedora-$releasever/$basearch/
+enabled=1
+skip_if_unavailable=1
+gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
+gpgcheck=1
+
+[fedora-HandBrake-source]
+name=Open source multiplatform video transcoder
+baseurl=http://negativo17.org/repos/HandBrake/fedora-$releasever/SRPMS
+enabled=0
+skip_if_unavailable=1
+gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
+gpgcheck=1
+EOF
+echo "$VAR" > /etc/yum.repos.d/fedora-handbrake.repo
+
+    yum -y install HandBrake-gui
 fi
 
 
@@ -113,6 +140,7 @@ yum -y install kernel-doc
 yum -y install dkms
 yum -y install VirtualBox-4.3
 yum -y install recordmydesktop
+yum -y install dcfldd # Forensic version of dd
 
 
 # support for many different compression formats
