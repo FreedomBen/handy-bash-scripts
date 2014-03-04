@@ -146,6 +146,7 @@ yum -y install dcfldd # Forensic version of dd
 yum -y install eog
 yum -y install qalculate-gtk # a freaking awesome calculator
 yum -y install ImageMagick
+yum -y install xdotool # for getting mouse location and more
 
 # mp3 and other codec needs
 # yum -y k3b k3b-extras-freeworld #extras required for mp3 ripping/burning
