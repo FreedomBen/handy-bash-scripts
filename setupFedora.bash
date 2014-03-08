@@ -141,16 +141,13 @@ yum -y install dkms
 yum -y install VirtualBox-4.3
 yum -y install recordmydesktop
 yum -y install dcfldd # Forensic version of dd
-
+yum -y install eog
+yum -y install eog
+yum -y install qalculate-gtk # a freaking awesome calculator
 
 # support for many different compression formats
-yum -y install qalculate-gtk # a freaking awesome calculator
 yum -y install unace 
 yum -y install unrar 
-yum -y install zip 
-yum -y install unzip 
-yum -y install p7zip-full 
-yum -y install p7zip-rar 
 yum -y install sharutils 
 yum -y install rar 
 yum -y install uudeview 
