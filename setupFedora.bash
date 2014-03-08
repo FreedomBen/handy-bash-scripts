@@ -142,7 +142,6 @@ yum -y install VirtualBox-4.3
 yum -y install recordmydesktop
 yum -y install dcfldd # Forensic version of dd
 yum -y install eog
-yum -y install eog
 yum -y install qalculate-gtk # a freaking awesome calculator
 
 # support for many different compression formats
