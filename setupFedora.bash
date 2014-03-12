@@ -134,6 +134,8 @@ yum -y install xclip
 yum -y install dconf-editor
 yum -y install gnome-tweak-tool
 yum -y install xclip
+yum -y install xournal
+yum -y install pdfedit
 
 yum -y install kernel-devel
 yum -y install kernel-doc
