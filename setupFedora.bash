@@ -147,6 +147,18 @@ yum -y install eog
 yum -y install qalculate-gtk # a freaking awesome calculator
 yum -y install ImageMagick
 
+# mp3 and other codec needs
+# yum -y k3b k3b-extras-freeworld #extras required for mp3 ripping/burning
+yum -y install gstreamer-plugins-espeak
+yum -y install gstreamer-plugins-base
+yum -y install gstreamer-plugins-ugly
+yum -y install gstreamer-plugins-bad
+yum -y install gstreamer-plugins-good
+yum -y install gstreamer-plugins-bad-free
+yum -y install gstreamer-plugins-bad-free-extras
+yum -y install gstreamer-plugins-bad-nonfree
+yum -y install gstreamer-plugins-good-extras
+
 # support for many different compression formats
 yum -y install unace 
 yum -y install unrar 
