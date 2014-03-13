@@ -145,6 +145,7 @@ yum -y install recordmydesktop
 yum -y install dcfldd # Forensic version of dd
 yum -y install eog
 yum -y install qalculate-gtk # a freaking awesome calculator
+yum -y install ImageMagick
 
 # support for many different compression formats
 yum -y install unace 
