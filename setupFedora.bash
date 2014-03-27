@@ -212,6 +212,32 @@ yum -y install transmission
 pip install pymazon
 
 
+# install ms core fonts (like Times New Roman)
+if [ ! -f "/usr/share/fonts/msttcorefonts/times.ttf" ]; then
+    # check for dependencies
+    if ! $(which cabextract); then
+        yum -y install cabextract
+    fi
+
+    if ! $(which wget); then
+        yum -y install wget
+    fi
+
+    if ! $(which rpmbuild); then
+        yum -y install rpm-build
+    fi
+
+    if ! $(which ttmkfdir); then
+        yum -y install ttmkfdir
+    fi
+
+    wget http://corefonts.sourceforge.net/msttcorefonts-2.5-1.spec
+    rpmbuild -bb msttcorefonts-2.5-1.spec
+    rpm -ivh $HOME/rpmbuild/RPMS/noarch/msttcorefonts-2.5-1.noarch.rpm
+    fc-cache -f -v
+fi
+
+
 # now upgrade all existing packages.  This will probably require a reboot at the end
 yum -y update
 
