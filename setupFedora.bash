@@ -237,6 +237,9 @@ if [ ! -f "/usr/share/fonts/msttcorefonts/times.ttf" ]; then
     fc-cache -f -v
 fi
 
+# set some common configuration options
+# Don't attach modal dialogs
+dconf write /org/gnome/shell/overrides/attach-modal-dialogs false
 
 # now upgrade all existing packages.  This will probably require a reboot at the end
 yum -y update
