@@ -1,27 +1,13 @@
 #!/bin/bash
 
 # Ignore repos (grep regex)
-ONE='webgoat'
-TWO='django$'
-THREE='practice'
-FOUR='linux'
-FIVE='updf'
-SIX='wordament'
-SEVEN='rss-fixer'
-EIGHT='infa719'
-NINE='openssl'
+declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux' 'updf' 'wordament' 'rss-fixer' 'infa719' 'openssl')
 
 onIgnoreList () 
 {
-    echo "$1" | grep "$ONE" > /dev/null && return 0
-    echo "$1" | grep "$TWO" > /dev/null && return 0
-    echo "$1" | grep "$THREE" > /dev/null && return 0
-    echo "$1" | grep "$FOUR" > /dev/null && return 0
-    echo "$1" | grep "$FIVE" > /dev/null && return 0
-    echo "$1" | grep "$SIX" > /dev/null && return 0
-    echo "$1" | grep "$SEVEN" > /dev/null && return 0
-    echo "$1" | grep "$EIGHT" > /dev/null && return 0
-    echo "$1" | grep "$NINE" > /dev/null && return 0
+    for regex in "${ignoreList[@]}"; do
+        echo "$1" | grep "$regex" > /dev/null && return 0
+    done
     return 1
 }
 
@@ -34,7 +20,7 @@ fi
 for file in $(find . -maxdepth 1 -type d)
 do
     echo -en "\033[0;34mUpdating ${file}: \033[0m"
-    if [ -d ${file}/.git ]; then
+    if [ -d "${file}/.git" ]; then
         if onIgnoreList "${file}"; then
             echo -e "\033[1;33mRepo on ignore list: ${file}\033[0m"
         else
