@@ -24,7 +24,6 @@ do
         if onIgnoreList "${file}"; then
             echo -e "\033[1;33mRepo on ignore list: ${file}\033[0m"
         else
-            echo -e "\033[0;34mPlease enter credentials if requested\033[0m"
             oldDir=$(pwd)
             cd $file
             if [[ $@ =~ [pP] ]]; then
