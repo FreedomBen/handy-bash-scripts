@@ -2,10 +2,10 @@
 
 # Ignore repos (grep regex)
 # these repos will be ignored altogether
-declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux' 'updf' 'wordament' 'rss-fixer' 'infa719' 'openssl' 'jhbuild')
+declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux$' 'linux\-stable$' 'wordament' 'infa719' 'jhbuild')
 
 # this list the repos will be pulled but never pushed
-declare -a pushIgnoreList=('django-experiment')
+declare -a pushIgnoreList=('updf' 'rtl8188ce' 'openssl')
 
 
 # color variables to make it a lot easier to use color
@@ -102,3 +102,4 @@ do
     fi
     echo -en "${color_restore}"
 done
+
