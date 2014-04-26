@@ -65,7 +65,7 @@ do
     echo -en "${color_blue}Updating ${file}: ${color_restore}"
     if [ -d "${file}/.git" ]; then
         if onIgnoreList "${file}"; then
-            echo -e "${color_yellow}Repo on ignore list: ${file}${color_restore}"
+            echo -e "${color_purple}Repo on ignore list: ${file}${color_restore}"
         else
             oldDir=$(pwd)
             cd $file
@@ -91,6 +91,7 @@ do
             fi
 
             if (( $dopop )); then
+                echo -e "${color_yellow}You have uncommitted changes in ${file}${color_restore}"
                 git stash pop > /dev/null || echo "${color_red}Oh no! Git pop failed! I hope I didn't lose your changes in ${file}${color_restore}"
             fi
 
