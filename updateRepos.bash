@@ -65,7 +65,7 @@ do
     echo -en "${color_blue}Updating ${file}: ${color_restore}"
     if [ -d "${file}/.git" ]; then
         if onIgnoreList "${file}"; then
-            echo -en "${color_yellow}Repo on ignore list: ${file}${color_restore}"
+            echo -e "${color_yellow}Repo on ignore list: ${file}${color_restore}"
         else
             oldDir=$(pwd)
             cd $file
@@ -83,7 +83,7 @@ do
                         echo -e "Nothing to push: ${file}"
                     fi
                 else
-                    echo -e "${color_light_cyan}Repo on push ignore list: ${file}${color_restore}"
+                    echo -en "${color_light_cyan}Repo on push ignore list: ${file}${color_restore}"
                     git pull --rebase
                 fi
             else
