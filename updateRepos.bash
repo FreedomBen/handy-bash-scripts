@@ -5,7 +5,7 @@
 declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux' 'updf' 'wordament' 'rss-fixer' 'infa719' 'openssl' 'jhbuild')
 
 # this list the repos will be pulled but never pushed
-declare -a pushIgnoreList=('config-files')
+declare -a pushIgnoreList=('django-experiment')
 
 
 # color variables to make it a lot easier to use color
@@ -83,7 +83,7 @@ do
                         echo -e "Nothing to push: ${file}"
                     fi
                 else
-                    echo -en "${color_light_cyan}Repo on push ignore list: ${file}${color_restore}"
+                    echo -en "${color_light_cyan}Repo on push ignore list: ${file}: ${color_restore}"
                     git pull --rebase
                 fi
             else
