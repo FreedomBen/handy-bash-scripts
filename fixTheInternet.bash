@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $( lsmod | grep iwlwifi ) ]; then
+if $(echo $(lsmod) | grep "iwlwifi" > /dev/null); then
     echo "This script will temporarily disable your ethernet connection and wireless N.  This fixes a wireless N issue that Linux has with some routers when using an Intel wireless card.  You will need to enter your sudo password when prompted."
 
     sudo ifconfig eth0 down
