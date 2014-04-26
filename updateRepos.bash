@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Ignore repos (grep regex)
-declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux' 'updf' 'wordament' 'rss-fixer' 'infa719' 'openssl')
+declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux' 'updf' 'wordament' 'rss-fixer' 'infa719' 'openssl' 'jhbuild')
 
 onIgnoreList () 
 {
