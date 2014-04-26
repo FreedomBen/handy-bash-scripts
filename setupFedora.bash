@@ -241,6 +241,8 @@ fi
 # set some common configuration options
 # Don't attach modal dialogs
 dconf write /org/gnome/shell/overrides/attach-modal-dialogs false
+# Show a logout option even if there's only one user that exists
+dconf write /org/gnome/shell/always-show-log-out true
 
 # now upgrade all existing packages.  This will probably require a reboot at the end
 yum -y update
