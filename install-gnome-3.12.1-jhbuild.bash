@@ -6,37 +6,42 @@ die ()
     exit
 }
 
+read -p "Build webkit? (Can take a couple hours and not required for most) (Y/N): " WEBKIT
+
 sudo yum install -y @development-tools @gnome-software-development
-sudo yum install -y dotconf-devel exiv2-devel spice-protocol spice-protocol-devel gtkspell3-devel gc-devel pkg-config python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel spamassassin-devel espeak-devel bogofilter-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel
+sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils
 
 
 if [ -d ~/gitclone ]; then
     cd ~/gitclone
 fi
 
+mkdir -p ~/.local/bin
 
 if [ ! -d jhbuild ]; then
     git clone git://git.gnome.org/jhbuild
-    cd jhbuild 
-    ./autogen.sh || die "Error configuring jhbuild"
-    make || die "Error building jhbuild"
-    make install || die "Error installing jhbuild"
 fi
 
+cd jhbuild 
+./autogen.sh || die "Error configuring jhbuild"
+make || die "Error building jhbuild"
+make install || die "Error installing jhbuild"
 
-NEEDS_PATH_APP=0
+
+NEEDS_PATH_APP=1
 if [[ $PATH =~ \.local/bin ]]; then
-    NEEDS_PATH_APP=1
+    NEEDS_PATH_APP=0
 else
     while read line; do
         if [[ $line =~ \.local/bin ]]; then
-            NEEDS_PATH_APP=1
+            NEEDS_PATH_APP=0
         fi
     done < ~/.bashrc
 fi
 
 if (( $NEEDS_PATH_APP )); then
     echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
+    . ~/.bashrc
 fi
 
 
@@ -67,6 +72,14 @@ __EOF__
 
 echo "$VAR" > ~/.config/jhbuildrc
 
+if [ $WEBKIT =~ [Yy] ]; then
+    echo "skip = ['WebKit'] # required for Epiphany but not basic gnome-shell" >> ~/.config/jhbuildrc
+fi
+
+
+if ! $(which jhbuild > /dev/null 2>&1); then
+    PATH=$PATH:~/.local/bin
+fi
 
 jhbuild sysdeps --install || die "Error installing jhbuild sysdeps"
 jhbuild build || die "Error building jhbuild"
