@@ -7,3 +7,5 @@ sudo wget http://download.opensuse.org/repositories/home:/DarkPlayer:/Pipelight/
 sudo yum install pipelight && sudo pipelight-plugin --update
 
 sudo pipelight-plugin --enable silverlight
+sudo setsebool -P unconfined_mozilla_plugin_transition 0
+
