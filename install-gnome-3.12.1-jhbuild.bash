@@ -3,13 +3,13 @@
 die ()
 {
     echo "ERROR: $1"
-    exit
+    exit 1
 }
 
 read -p "Build webkit? (Can take a couple hours and not required for most) (Y/N): " WEBKIT
 
 sudo yum install -y @development-tools @gnome-software-development
-sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils
+sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils xorg-x11-xtrans-devel avahi-gobject-devel libdvdread-devel
 
 
 if [ -d ~/gitclone ]; then
@@ -84,6 +84,12 @@ fi
 jhbuild sysdeps --install || die "Error installing jhbuild sysdeps"
 jhbuild build || die "Error building jhbuild"
 
+if [ "$?" != "0" ]; then
+    read -p "The build process is complete but some errors occurred.  Proceed with installation?" response
+    if ! [[ "$response" =~ [yY] ]]; then
+         exit 1  
+    fi
+fi
 
 mkdir -p ~/jhbuild/install/var/run || die "Error making required dir"
 sudo mkdir -p /var/run/dbus || die "Error making required dir"
@@ -135,4 +141,6 @@ if [ $response =~ YES ]; then
 else
    echo "No problem, when you're ready, run: sudo systemctl restart gdm"
 fi
+
+exit 0
 
