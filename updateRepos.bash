@@ -80,7 +80,8 @@ do
                     if hasPushes; then
                         git pull --rebase && git push
                     else
-                        echo -e "Nothing to push: ${file}"
+                        echo -en "${color_green}Nothing to push: ${file}: ${color_restore}"
+                        git pull --rebase
                     fi
                 else
                     echo -en "${color_light_cyan}Repo on push ignore list: ${file}: ${color_restore}"
