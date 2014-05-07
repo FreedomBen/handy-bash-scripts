@@ -11,6 +11,8 @@ Top recommended scripts:
 
 3\. backup.bash - Ever planned on updating some config files or other system files but wanted to make a backup in case something went wrong?  This script makes it a piece of cake.  No more copying and renaming and then hunting later.  This script will back up the directory or file in ~/.backups/
 
-4\. record.bash - This script add a more user friendly front end to the `recordmydesktop` tool.  It lets you select a bounding rect with your mouse rather than make you guess at the coordinates.
+4\. updateRepos.bash - If you have a lot of git repos cloned, run this script from the root directory.  It will recurse into the git clones below and do a pull and optionally a push.  If you have un-committed changes they will be stashed while your repo is updated, and restored when finished.  you'll also be notified in case you forgot they were there.  I use this one several times a day.
+
+5\. record.bash - This script add a more user friendly front end to the `recordmydesktop` tool.  It lets you select a bounding rect with your mouse rather than make you guess at the coordinates.
 
 There are lots more scripts, but those are the highlights.
