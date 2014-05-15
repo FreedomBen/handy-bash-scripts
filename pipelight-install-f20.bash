@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This script will install pipelight on Fedora 20 so you can watch Netflix
+
 sudo yum install cabextract
 sudo rpm -i http://sourceforge.net/projects/mscorefonts2/files/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
