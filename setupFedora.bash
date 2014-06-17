@@ -116,6 +116,8 @@ echo "$VAR" > /etc/yum.repos.d/insync.repo
 # Insync prompts the user so get that installed early
 yum -y install insync insync-nautilus
 
+# profile-sync-daemon (config needed in /etc/psd.conf
+yum -y install profile-sync-daemon
 
 # group installs
 yum -y groupinstall "Development Tools"
