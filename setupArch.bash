@@ -55,9 +55,17 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 read -p "Do you want to install a graphical environment (Gnome)?: " GNOME
-read -p "Do you want to install Netflix?: " NETFLIX
-read -p "Do you want to install Dropbox?: " DROPBOX
-read -p "Do you want to install Handbrake?: " HANDBRAKE
+
+NETMAN=n
+if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
+    read -p "Do you want to install Network Manager?: " NETMAN
+fi
+
+read -p "Do you want to install libvirt/KVM?: " LIBVIRT
+
+# read -p "Do you want to install Netflix?: " NETFLIX
+# read -p "Do you want to install Dropbox?: " DROPBOX
+# read -p "Do you want to install Handbrake?: " HANDBRAKE
 
 # generate SSH keys if necessary
 if [ -f "$HOME/.ssh/id_rsa.pub" ]; then
@@ -85,6 +93,7 @@ pacman -Syu --noconfirm
 
 # Install non-graphical stuff
 pacman -S --noconfirm --needed base-devel
+pacman -S --noconfirm --needed iproute2 iw wpa_supplicant
 pacman -S --noconfirm --needed vim
 pacman -S --noconfirm --needed git
 pacman -S --noconfirm --needed xclip
@@ -96,10 +105,14 @@ pacman -S --noconfirm --needed python-pip
 pacman -S --noconfirm --needed python-crypto
 pacman -S --noconfirm --needed bc
 pacman -S --noconfirm --needed linux-headers
-pacman -S --noconfirm --needed ntp
 pacman -S --noconfirm --needed htop
 pacman -S --noconfirm --needed lsof
 pacman -S --noconfirm --needed p7zip
+
+# if we install network manager then we don't want this
+if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
+    pacman -S --noconfirm --needed ntp
+fi
 
 
 # Install graphical stuff
@@ -124,6 +137,28 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     pacman -S --noconfirm --needed xchat
     pacman -S --noconfirm --needed gimp
     pacman -S --noconfirm --needed pinta
+
+
+    # Install Network Manager
+    # If Network Manager needs to be disabled, it should be masked because it automatically starts through dbus
+    # systemctl mask NetworkManager
+    # systemctl mask NetworkManager-dispatcher
+
+    if [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
+        pacman -S --noconfirm --needed networkmanager network-manager-applet
+        pacman -S --noconfirm --needed networkmanager-dispatcher-openntpd
+
+        systemctl enable NetworkManager
+        systemctl enable NetworkManager-dispatcher.service
+
+        echo "dhcp=dhcpcd" >> /etc/NetworkManager/NetworkManager.conf
+    fi
+fi
+
+
+# Install libvirt
+if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
+    echo "Libvirt install not implemented"
 fi
 
 
