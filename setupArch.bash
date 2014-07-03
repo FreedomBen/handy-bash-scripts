@@ -54,6 +54,7 @@ if [ "$(id -u)" != "0" ]; then
     exit
 fi
 
+read -p "Do you want to install a graphical environment (Gnome)?: " GNOME
 read -p "Do you want to install Netflix?: " NETFLIX
 read -p "Do you want to install Dropbox?: " DROPBOX
 read -p "Do you want to install Handbrake?: " HANDBRAKE
@@ -81,42 +82,50 @@ yum -y install profile-sync-daemon
 # Full repo sync and system upgrade
 pacman -Syu --noconfirm
 
-pacman -S --noconfirm --needed terminator
-pacman -S --noconfirm --needed gnome
-pacman -S --noconfirm --needed gedit
+
+# Install non-graphical stuff
 pacman -S --noconfirm --needed base-devel
-pacman -S --noconfirm --needed git
 pacman -S --noconfirm --needed vim
-pacman -S --noconfirm --needed gnome-tweak-tool
+pacman -S --noconfirm --needed git
 pacman -S --noconfirm --needed xclip
-pacman -S --noconfirm --needed recordmydesktop
-pacman -S --noconfirm --needed xdotool
-pacman -S --noconfirm --needed imagemagick imagemagick-doc
 pacman -S --noconfirm --needed dcfldd
-pacman -S --noconfirm --needed eog
-pacman -S --noconfirm --needed qalculate-gtk # a freaking awesome calculator
-pacman -S --noconfirm --needed dconf
-pacman -S --noconfirm --needed firefox
-pacman -S --noconfirm --needed transmission-gtk
 pacman -S --noconfirm --needed unrar
-pacman -S --noconfirm --needed vlc
-pacman -S --noconfirm --needed libdvdcss
-pacman -S --noconfirm --needed ttf-freefont
 pacman -S --noconfirm --needed nmap
 pacman -S --noconfirm --needed wireshark-gtk
 pacman -S --noconfirm --needed python-pip
 pacman -S --noconfirm --needed python-crypto
 pacman -S --noconfirm --needed bc
-pacman -S --noconfirm --needed unetbootin
-pacman -S --noconfirm --needed p7zip
-pacman -S --noconfirm --needed fbreader
-pacman -S --noconfirm --needed xchat
-pacman -S --noconfirm --needed gimp
-pacman -S --noconfirm --needed pinta
 pacman -S --noconfirm --needed linux-headers
 pacman -S --noconfirm --needed ntp
 pacman -S --noconfirm --needed htop
 pacman -S --noconfirm --needed lsof
+pacman -S --noconfirm --needed p7zip
+
+
+# Install graphical stuff
+if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
+    pacman -S --noconfirm --needed gnome
+    pacman -S --noconfirm --needed terminator
+    pacman -S --noconfirm --needed gedit
+    pacman -S --noconfirm --needed gnome-tweak-tool
+    pacman -S --noconfirm --needed recordmydesktop
+    pacman -S --noconfirm --needed xdotool
+    pacman -S --noconfirm --needed imagemagick imagemagick-doc
+    pacman -S --noconfirm --needed eog
+    pacman -S --noconfirm --needed qalculate-gtk # a freaking awesome calculator
+    pacman -S --noconfirm --needed dconf
+    pacman -S --noconfirm --needed firefox
+    pacman -S --noconfirm --needed transmission-gtk
+    pacman -S --noconfirm --needed vlc
+    pacman -S --noconfirm --needed libdvdcss
+    pacman -S --noconfirm --needed ttf-freefont
+    pacman -S --noconfirm --needed unetbootin
+    pacman -S --noconfirm --needed fbreader
+    pacman -S --noconfirm --needed xchat
+    pacman -S --noconfirm --needed gimp
+    pacman -S --noconfirm --needed pinta
+fi
+
 
 # If Nvidia graphics card:
 # pacman -S --noconfirm libva-vdpau-driver
@@ -136,6 +145,7 @@ aurinstall google-chrome
 
 
 # Enable desired services
+echo "Enabling and starting ntpd..."
 systemctl enable ntpd
 systemctl start ntpd
 
@@ -154,8 +164,12 @@ systemctl start ntpd
 
 
 # set some common configuration options
+
+echo "Writing dconf settings for non-attached modal dialogs"
 # Don't attach modal dialogs
 dconf write /org/gnome/shell/overrides/attach-modal-dialogs false
+
+echo "Writing dconf settings for log out option if only one user exists"
 # Show a logout option even if there's only one user that exists
 dconf write /org/gnome/shell/always-show-log-out true
 
