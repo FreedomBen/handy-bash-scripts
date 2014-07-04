@@ -183,6 +183,7 @@ fi
 # Install libvirt
 if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
     echo "Libvirt install not implemented"
+    # pacman -S --noconfirm --needed libvirt virt-manager bridge-utils virt-manager virtviewer
 fi
 
 # If in a VM like KVM/QEMU
