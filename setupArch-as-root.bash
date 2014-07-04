@@ -206,10 +206,14 @@ aurinstall pithos
 aurinstall google-chrome
 
 
-# Enable desired services
-echo "Enabling and starting ntpd..."
-systemctl enable ntpd
-systemctl start ntpd
+# Enable desired services 
+
+# We need ntpd if we didn't isntall NetworkManager
+if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
+    echo "Enabling and starting ntpd..."
+    systemctl enable ntpd
+    systemctl start ntpd
+fi
 
 
 # mp3 and other codec needs
