@@ -58,6 +58,18 @@ read -p "Do you want to install a graphical environment (Gnome)?: " GNOME
 
 NETMAN=n
 if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
+    read -p "Do you want to add the main user to the groups: audio,lp,optical,storage,video,wheel,games,power,scanner?: " GROUPS
+    if [ "$GROUPS" = "y" -o "$GROUPS" = "Y" ]; then
+        read -p "What is the username of the main user?: " USERNAME
+        # Add the user to the groups if we're supposed to. Make sure the user exists
+        if [ -n "$USERNAME" ]; then
+            if ! $(cat /etc/passwd | grep "^${USERNAME}" >/dev/null); then
+                useradd -m "$USERNAME"
+                echo "Please enter a password for the user \"${USERNAME}\""
+                passwd $USERNAME
+            fi
+        fi
+    fi
     read -p "Do you want to install Network Manager?: " NETMAN
 fi
 
@@ -117,6 +129,7 @@ fi
 
 # Install graphical stuff
 if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
+    pacman -S --noconfirm --needed xorg-server xorg-server-utils xorg-utils xorg-apps xorg-xinit
     pacman -S --noconfirm --needed gnome
     pacman -S --noconfirm --needed terminator
     pacman -S --noconfirm --needed gedit
@@ -138,6 +151,13 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     pacman -S --noconfirm --needed gimp
     pacman -S --noconfirm --needed pinta
 
+    # setup the xinit
+    if [ -f /etc/skel/.xinitrc ]; then
+        cp /etc/skel/.xinitrc $HOME/ 
+        echo "exec gnome-session" >> $HOME/.xinitrc
+    else
+        echo "No .xinitrc found in /etc/skel!"
+    fi
 
     # Install Network Manager
     # If Network Manager needs to be disabled, it should be masked because it automatically starts through dbus
@@ -155,18 +175,24 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     fi
 fi
 
+if [ -n "$GROUPS" ]; then
+    usermod -a -G audio,lp,optical,storage,video,wheel,games,power,scanner $USERNAME
+fi
+
 
 # Install libvirt
 if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
     echo "Libvirt install not implemented"
 fi
 
+# If in a VM like KVM/QEMU
+# pacman -S --noconfirm mesa xf86-video-vesa
 
 # If Nvidia graphics card:
-# pacman -S --noconfirm libva-vdpau-driver
+# pacman -S --noconfirm libva-vdpau-driver nvidia-304xx
 
 # If Intel graphics card:
-# pacman -S --noconfirm libva-intel-driver
+# pacman -S --noconfirm libva-intel-driver xf86-video-intel
 
 
 aurinstall "https://aur.archlinux.org/packages/co/cower/cower.tar.gz"
