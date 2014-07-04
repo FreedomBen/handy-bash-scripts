@@ -51,7 +51,7 @@ echo "This script will install a bunch of packages that Ben deems necessary for 
 # check for root.  Don't continue if we aren't root
 if [ "$(id -u)" != "0" ]; then
     echo "Cannot setup system.  Must be root."
-    exit
+    exit 1
 fi
 
 read -p "Do you want to install a graphical environment (Gnome)?: " GNOME
@@ -78,18 +78,6 @@ read -p "Do you want to install libvirt/KVM?: " LIBVIRT
 # read -p "Do you want to install Netflix?: " NETFLIX
 # read -p "Do you want to install Dropbox?: " DROPBOX
 # read -p "Do you want to install Handbrake?: " HANDBRAKE
-
-# generate SSH keys if necessary
-if [ -f "$HOME/.ssh/id_rsa.pub" ]; then
-    read -p "You don't yet have SSH keys.  Generate some?: " SSH
-    
-    if [ "$SSH" == "y" -o "$SSH" == "Y" ]; then
-        prevdir=$(pwd)
-        cd "$HOME/.ssh"
-        ssh-keygen
-        cd $prevdir
-    fi
-fi
 
 
 # Insync prompts the user so get that installed early
@@ -150,14 +138,6 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     pacman -S --noconfirm --needed xchat
     pacman -S --noconfirm --needed gimp
     pacman -S --noconfirm --needed pinta
-
-    # setup the xinit
-    if [ -f /etc/skel/.xinitrc ]; then
-        cp /etc/skel/.xinitrc $HOME/ 
-        echo "exec gnome-session" >> $HOME/.xinitrc
-    else
-        echo "No .xinitrc found in /etc/skel!"
-    fi
 
     # Install Network Manager
     # If Network Manager needs to be disabled, it should be masked because it automatically starts through dbus
@@ -229,13 +209,5 @@ fi
 # yum -y install gstreamer-plugins-good-extras
 
 
-# set some common configuration options
-
-echo "Writing dconf settings for non-attached modal dialogs"
-# Don't attach modal dialogs
-dconf write /org/gnome/shell/overrides/attach-modal-dialogs false
-
-echo "Writing dconf settings for log out option if only one user exists"
-# Show a logout option even if there's only one user that exists
-dconf write /org/gnome/shell/always-show-log-out true
+echo "All done.  You should now run the as-user script as your regular user"
 
