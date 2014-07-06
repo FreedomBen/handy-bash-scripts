@@ -15,7 +15,7 @@ fi
 
 function allowDefaultYes ()
 {
-    [ "$1" = "n" -o "$1" = "n" ]
+    ! [ "$1" = "n" -o "$1" = "N" ]
 }
 
 function allowDefaultNo ()

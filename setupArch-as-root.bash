@@ -111,6 +111,7 @@ pacman -S --noconfirm --needed p7zip
 pacman -S --noconfirm --needed bash-completion
 pacman -S --noconfirm --needed avahi
 pacman -S --noconfirm --needed nss-mdns
+pacman -S --noconfirm --needed openssh
 
 # setup avahi/mdns
 tfile=$(mktemp)
@@ -213,6 +214,8 @@ fi
 systemctl enable avahi-daemon.service
 systemctl start avahi-daemon.service
 
+systemctl enable sshd
+systemctl start sshd
 
 
 # mp3 and other codec needs
