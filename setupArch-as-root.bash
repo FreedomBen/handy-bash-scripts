@@ -109,6 +109,20 @@ pacman -S --noconfirm --needed htop
 pacman -S --noconfirm --needed lsof
 pacman -S --noconfirm --needed p7zip
 pacman -S --noconfirm --needed bash-completion
+pacman -S --noconfirm --needed avahi
+pacman -S --noconfirm --needed nss-mdns
+
+# setup avahi/mdns
+tfile=$(mktemp)
+while read line; do
+    if ! $(echo "$line" | grep 'mdns_minimal' > /dev/null); then
+           echo "$line" | sed -e 's/hosts: files/hosts: files mdns_minimal [NOTFOUND=return]/g' >> "$tfile"
+       else
+           echo "$line" >> "$tfile"
+    fi
+done < "/etc/nsswitch.conf"
+sudo cp "$tfile" /etc/nsswitch.conf
+
 
 # if we install network manager then we don't want this
 if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
@@ -195,6 +209,10 @@ if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
     systemctl enable ntpd
     systemctl start ntpd
 fi
+
+systemctl enable avahi-daemon.service
+systemctl start avahi-daemon.service
+
 
 
 # mp3 and other codec needs
