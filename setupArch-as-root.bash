@@ -108,6 +108,7 @@ pacman -S --noconfirm --needed linux-headers
 pacman -S --noconfirm --needed htop
 pacman -S --noconfirm --needed lsof
 pacman -S --noconfirm --needed p7zip
+pacman -S --noconfirm --needed bash-completion
 
 # if we install network manager then we don't want this
 if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
