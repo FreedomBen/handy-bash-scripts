@@ -154,6 +154,12 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     pacman -S --noconfirm --needed xchat
     pacman -S --noconfirm --needed gimp
     pacman -S --noconfirm --needed pinta
+    pacman -S --noconfirm --needed handbrake
+    pacman -S --noconfirm --needed gst-plugins-base gst-plugins-base-libs
+    pacman -S --noconfirm --needed gst-plugins-good
+    pacman -S --noconfirm --needed gst-plugins-bad
+    pacman -S --noconfirm --needed gst-plugins-ugly
+    pacman -S --noconfirm --needed vino vinagre # VLC server and remote viewer Gnome style
 
     # Install Network Manager
     # If Network Manager needs to be disabled, it should be masked because it automatically starts through dbus
