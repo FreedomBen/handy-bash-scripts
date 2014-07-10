@@ -5,7 +5,7 @@ DEBUG_MODE=0
 # Uncomment the next line to turn on debug output
 # DEBUG_MODE=1
 
-TEMP_FILE=$HOME/.findreftempfile;
+TEMP_FILE=$(mktemp)
 ABS_PATH_COMMAND="realpath"
 IN_GIT_REPO=0
 
@@ -55,7 +55,9 @@ fi
 
 
 # skip this if given --fast or -f
-if [[ ! $@ =~ -f ]]; then
+if [ -n "$3" ]; then
+    DEBUG "Skipping git ignore check because we have filename specified ($3)"
+elif [[ ! $@ =~ -f ]]; then
     DEBUG "Checking if we're in a git repo"
     # Determine if we are inside of a Git repo so we can consider the .gitignore file
     prevDir="$(pwd)"
@@ -142,7 +144,7 @@ do
     else
         topBoundary=numlines;
     fi;
-    sed -n $i,$(( i + topBoundary ))p $TEMP_FILE | sed 's/ /\\ /g' | sed "s/'//g" | xargs grep --color --binary-files=without-match --line-number $what;
+    sed -n $i,$(( i + topBoundary ))p $TEMP_FILE | sed 's/ /\\ /g' | sed "s/'//g" | xargs grep --color --binary-files=without-match --directories=skip --devices=skip --line-number $what;
     numlines=$(( numlines - topBoundary ));
     if (( numlines <= 0 )); then
         break;
