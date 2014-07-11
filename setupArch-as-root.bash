@@ -113,6 +113,10 @@ pacman -S --noconfirm --needed avahi
 pacman -S --noconfirm --needed nss-mdns
 pacman -S --noconfirm --needed openssh
 
+aurinstall "https://aur.archlinux.org/packages/co/cower/cower.tar.gz"
+aurinstall anything-sync-daemon
+
+
 # setup avahi/mdns
 tfile=$(mktemp)
 while read line; do
@@ -175,6 +179,32 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
 
         echo "dhcp=dhcpcd" >> /etc/NetworkManager/NetworkManager.conf
     fi
+
+    aurinstall profile-sync-daemon
+    aurinstall libgcrypt15
+    aurinstall python-pylast
+    aurinstall ttf-ms-fonts
+    aurinstall pithos
+    aurinstall google-chrome
+
+
+    # Set up /etc/psd.conf
+    PSD_USER="$USERNAME"
+    if [ -z "$PSD_USER" ]; then
+        PSD_USER="ben"
+    fi
+    tmpfile=$(mktemp)
+    while read line; do
+        # Order here is important
+        if $(echo "$line" | egrep "^#" > /dev/null); then
+            echo "$line" >> $tmpfile
+        elif $(echo "$line" | grep "USERS" > /dev/null); then
+            echo "USERS=\"$PSD_USER\"" >> $tmpfile
+        else
+            echo "$line" >> $tmpfile
+        fi
+    done < "/etc/psd.conf"
+
 fi
 
 if [ -n "$GROUPS" ]; then
@@ -198,16 +228,6 @@ fi
 # pacman -S --noconfirm libva-intel-driver xf86-video-intel
 
 
-aurinstall "https://aur.archlinux.org/packages/co/cower/cower.tar.gz"
-aurinstall profile-sync-daemon
-aurinstall anything-sync-daemon
-aurinstall libgcrypt15
-aurinstall python-pylast
-aurinstall ttf-ms-fonts
-aurinstall pithos
-aurinstall google-chrome
-
-
 # Enable desired services 
 
 # We need ntpd if we didn't isntall NetworkManager
@@ -222,6 +242,10 @@ systemctl start avahi-daemon.service
 
 systemctl enable sshd
 systemctl start sshd
+
+if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
+    systemctl enable psd
+fi
 
 
 # mp3 and other codec needs
