@@ -233,18 +233,18 @@ fi
 # We need ntpd if we didn't isntall NetworkManager
 if ! [ "$NETMAN" = "Y" -o "$NETMAN" = "y" ]; then
     echo "Enabling and starting ntpd..."
-    systemctl enable ntpd
-    systemctl start ntpd
+    systemctl enable ntpd.service
+    systemctl start ntpd.service
 fi
 
 systemctl enable avahi-daemon.service
 systemctl start avahi-daemon.service
 
-systemctl enable sshd
-systemctl start sshd
+systemctl enable sshd.service
+systemctl start sshd.service
 
 if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
-    systemctl enable psd
+    systemctl enable psd.service psd-resync.service
 fi
 
 
