@@ -104,7 +104,15 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     read -p "Do you want to install Network Manager?: " NETMAN
 fi
 
-read -p "Do you want to install libvirt/QEMU/KVM?: " LIBVIRT
+# Ask about installing libvirt if the CPU supports virtualization
+if $(egrep "vmx|svm" /proc/cpuinfo > /dev/null); then
+    echo "Your CPU supports virtual machine hardware acceleration"
+    read -p "Do you want to install libvirt/QEMU/KVM?: " LIBVIRT
+else
+    echo "Your CPU DOES NOT support virtual machine hardware acceleration."
+    echo "You can install libvirt/QEMU without KVM but it will run dog slow."
+    read -p "Do you want to install libvirt/QEMU anyway (without KVM)?: " LIBVIRT
+fi
 
 # read -p "Do you want to install Netflix?: " NETFLIX
 # read -p "Do you want to install Dropbox?: " DROPBOX
@@ -251,8 +259,18 @@ if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
 
     if [ -n "$USERNAME" ]; then
         groupadd libvirt
-        usermod -a -G libvirt $USERNAME
+        usermod -a -G libvirt,kvm $USERNAME
     fi
+
+read -r -d '' VAR <<"EOF"
+    polkit.addRule(function(action, subject) {
+        if (action.id == "org.libvirt.unix.manage" &&
+            subject.isInGroup("libvirt")) {
+                return polkit.Result.YES;
+        }
+    });
+EOF
+    echo "$VAR" > /etc/polkit-1/rules.d/50-org.libvirt.unix.manage.rules
 fi
 
 # If in a VM like KVM/QEMU
@@ -284,19 +302,15 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     systemctl enable psd.service psd-resync.service
 fi
 
-
-# mp3 and other codec needs
-# yum -y k3b k3b-extras-freeworld #extras required for mp3 ripping/burning
-# yum -y install gstreamer-plugins-espeak
-# yum -y install gstreamer-plugins-base
-# yum -y install gstreamer-plugins-ugly
-# yum -y install gstreamer-plugins-bad
-# yum -y install gstreamer-plugins-good
-# yum -y install gstreamer-plugins-bad-free
-# yum -y install gstreamer-plugins-bad-free-extras
-# yum -y install gstreamer-plugins-bad-nonfree
-# yum -y install gstreamer-plugins-good-extras
+if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
+    systemctl enable libvirtd.service
+    systemctl enable libvirt-guests.service
+fi
 
 
-echo "All done.  You should now run the as-user script as your regular user"
+if [ -f "setupArch-as-user.bash" ] && [ -n "$USERNAME" ]; then
+    sudo -u $USERNAME setupArch-as-user.bash
+else
+    echo "All done.  You should now run the as-user script as your regular user"
+fi
 
