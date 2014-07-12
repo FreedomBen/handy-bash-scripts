@@ -54,37 +54,43 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
+USERNAME=""
+
+if $(cat /etc/passwd | grep "1000" > /dev/null); then
+    USERNAME=$(cat /etc/passwd | grep "1000" | sed -e 's/:x:.*//g')
+    read -p "Is the name of your non-root user \"${USERNAME}\"? (Y/N): " CONF
+    if ! [ "$CONF" = "Y" -o "$CONF" = "y" ]; then
+        USERNAME=""
+    fi
+fi
+
+if [ -z "$USERNAME" ]; then
+    echo "Please enter the name of the non-root user you want to create (or leave blank for none)"
+    read -p "New user: " USERNAME
+
+    # Add the user to the groups if we're supposed to. Make sure the user exists
+    if [ -n "$USERNAME" ]; then
+        if ! $(cat /etc/passwd | grep "^${USERNAME}" >/dev/null); then
+            useradd -m "$USERNAME"
+            echo "Please enter a password for the user \"${USERNAME}\""
+            passwd $USERNAME
+        fi
+    fi
+fi
+
 read -p "Do you want to install a graphical environment (Gnome)?: " GNOME
 
 NETMAN=n
 if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     read -p "Do you want to add the main user to the groups: audio,lp,optical,storage,video,wheel,games,power,scanner?: " GROUPS
-    if [ "$GROUPS" = "y" -o "$GROUPS" = "Y" ]; then
-        read -p "What is the username of the main user?: " USERNAME
-        # Add the user to the groups if we're supposed to. Make sure the user exists
-        if [ -n "$USERNAME" ]; then
-            if ! $(cat /etc/passwd | grep "^${USERNAME}" >/dev/null); then
-                useradd -m "$USERNAME"
-                echo "Please enter a password for the user \"${USERNAME}\""
-                passwd $USERNAME
-            fi
-        fi
-    fi
     read -p "Do you want to install Network Manager?: " NETMAN
 fi
 
-read -p "Do you want to install libvirt/KVM?: " LIBVIRT
+read -p "Do you want to install libvirt/QEMU/KVM?: " LIBVIRT
 
 # read -p "Do you want to install Netflix?: " NETFLIX
 # read -p "Do you want to install Dropbox?: " DROPBOX
-# read -p "Do you want to install Handbrake?: " HANDBRAKE
-
-
-# Insync prompts the user so get that installed early
-yum -y install insync insync-nautilus
-
-# profile-sync-daemon (config needed in /etc/psd.conf
-yum -y install profile-sync-daemon
+read -p "Do you want to install Insync?: " INSYNC
 
 
 # Full repo sync and system upgrade
@@ -115,6 +121,10 @@ pacman -S --noconfirm --needed openssh
 
 aurinstall "https://aur.archlinux.org/packages/co/cower/cower.tar.gz"
 aurinstall anything-sync-daemon
+
+if [ "$INSYNC" = "Y" -o "$INSYNC" = "y" ]; then
+    aurinstall insync
+fi
 
 
 # setup avahi/mdns
@@ -187,6 +197,10 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
     aurinstall pithos
     aurinstall google-chrome
 
+    if [ "$INSYNC" = "Y" -o "$INSYNC" = "y" ]; then
+        aurinstall insync-nautilus
+    fi
+
 
     # Set up /etc/psd.conf
     PSD_USER="$USERNAME"
@@ -207,7 +221,7 @@ if [ "$GNOME" = "Y" -o "$GNOME" = "y" ]; then
 
 fi
 
-if [ -n "$GROUPS" ]; then
+if [ -n "$GROUPS" ] && [ -n "$USERNAME" ]; then
     usermod -a -G audio,lp,optical,storage,video,wheel,games,power,scanner $USERNAME
 fi
 
@@ -215,7 +229,12 @@ fi
 # Install libvirt
 if [ "$LIBVIRT" = "Y" -o "$LIBVIRT" = "y" ]; then
     echo "Libvirt install not implemented"
-    # pacman -S --noconfirm --needed libvirt virt-manager bridge-utils virt-manager virtviewer
+    pacman -S --noconfirm --needed libvirt virt-manager bridge-utils dnsmasq virtviewer ebtables qemu
+
+    if [ -n "$USERNAME" ]; then
+        groupadd libvirt
+        usermod -a -G libvirt $USERNAME
+    fi
 fi
 
 # If in a VM like KVM/QEMU
