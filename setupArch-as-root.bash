@@ -42,7 +42,7 @@ aurinstall ()
 
     cd "$output_dir"
     makepkg --clean --syncdeps --needed --noconfirm --install
-    sudo cp *.tar.* "$AUR_ARCHIVE_DIR"
+    cp *.tar.* "$AUR_ARCHIVE_DIR"
 }
 
 
@@ -75,6 +75,24 @@ if [ -z "$USERNAME" ]; then
             echo "Please enter a password for the user \"${USERNAME}\""
             passwd $USERNAME
         fi
+    fi
+fi
+
+if [ -n "$USERNAME" ]; then
+    read -p "Do you want to make \"$USERNAME\" a sudoer and lock the root accounts password?: " LOCK_ROOT
+
+    if [ "$LOCK_ROOT" = "y" -o "$LOCK_ROOT" = "Y" ]; then
+        pacman -S --needed --noconfirm sudo
+
+        groupadd wheel
+        usermod -a -G wheel $USERNAME
+
+        # allow passworded sudo in the sudoers file
+        echo "Allow members of the wheel group sudo access" >> /etc/sudoers
+        echo "%wheel    ALL=(ALL) ALL" >> /etc/sudoers
+
+        # lock the root account
+        passwd -l root
     fi
 fi
 
@@ -136,7 +154,7 @@ while read line; do
            echo "$line" >> "$tfile"
     fi
 done < "/etc/nsswitch.conf"
-sudo cp "$tfile" /etc/nsswitch.conf
+cp "$tfile" /etc/nsswitch.conf
 
 
 # if we install network manager then we don't want this
