@@ -6,6 +6,20 @@ die ()
     exit 1
 }
 
+
+GNOME_VERS="3.12.1"
+
+if [ -n "$1" ]; then
+    GNOME_VERS="$1"
+fi
+
+read -p "You will be building version \"$GNOME_VERS\".  Is this what you want? (Y/N): " CONF
+
+if ! [[ $CONF =~ [Yy] ]]; then
+    echo "Rerun with version number desired.  i.e. $0 3.10.2"
+    exit 1
+fi
+
 read -p "Build webkit? (Can take a couple hours and not required for most) (Y/N): " WEBKIT
 
 read -p "Skip installing build dependencies? (Saying yes will skip to building)?: " SKIP
@@ -63,10 +77,10 @@ read -r -d '' VAR << "__EOF__"
 # -*- mode: python -*-
 # -*- coding: utf-8 -*-
 
-moduleset = [ 'http://ftp.gnome.org/pub/GNOME/teams/releng/3.12.1/gnome-apps-3.12.1.modules',
-    'http://ftp.gnome.org/pub/GNOME/teams/releng/3.12.1/gnome-suites-core-3.12.1.modules',
-    'http://ftp.gnome.org/pub/GNOME/teams/releng/3.12.1/gnome-suites-core-deps-3.12.1.modules',
-    'http://ftp.gnome.org/pub/GNOME/teams/releng/3.12.1/gnome-sysdeps-3.12.1.modules'
+moduleset = [ 'http://ftp.gnome.org/pub/GNOME/teams/releng/${GNOME_VERS}/gnome-apps-${GNOME_VERS}.modules',
+    'http://ftp.gnome.org/pub/GNOME/teams/releng/${GNOME_VERS}/gnome-suites-core-${GNOME_VERS}.modules',
+    'http://ftp.gnome.org/pub/GNOME/teams/releng/${GNOME_VERS}/gnome-suites-core-deps-${GNOME_VERS}.modules',
+    'http://ftp.gnome.org/pub/GNOME/teams/releng/${GNOME_VERS}/gnome-sysdeps-${GNOME_VERS}.modules'
     ]
 
 # A list of the modules to build.  Defaults to the GNOME core and tested apps.
