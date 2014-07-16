@@ -8,9 +8,12 @@ die ()
 
 read -p "Build webkit? (Can take a couple hours and not required for most) (Y/N): " WEBKIT
 
-sudo yum install -y @development-tools @gnome-software-development
-sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils xorg-x11-xtrans-devel avahi-gobject-devel libdvdread-devel
+read -p "Skip installing build dependencies? (Saying yes will skip to building)?: " SKIP
 
+if ! [[ "$SKIP" =~ [Yy] ]]; then
+    sudo yum install -y @development-tools @gnome-software-development
+    sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils xorg-x11-xtrans-devel avahi-gobject-devel libdvdread-devel
+fi
 
 if [ -d ~/gitclone ]; then
     cd ~/gitclone
@@ -20,9 +23,18 @@ mkdir -p ~/.local/bin
 
 if [ ! -d jhbuild ]; then
     git clone git://git.gnome.org/jhbuild
+    GITPULL=N
+else
+    read -p "Do a git pull on jhbuild now?: " GITPULL
 fi
 
+
 cd jhbuild 
+
+if [ "$GITPULL" = "y" -o "$GITPULL" = "Y" ]; then
+    git pull --rebase
+fi
+
 ./autogen.sh || die "Error configuring jhbuild"
 make || die "Error building jhbuild"
 make install || die "Error installing jhbuild"
