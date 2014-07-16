@@ -17,6 +17,11 @@ read -p "You will be building version \"$GNOME_VERS\".  Is this what you want? (
 
 if ! [[ $CONF =~ [Yy] ]]; then
     echo "Rerun with version number desired.  i.e. $0 3.10.2"
+    echo "  Known release versions:"
+    echo "      3.12.2"
+    echo "      3.10.2"
+    echo "      3.8.2"
+    echo "      3.6.2"
     exit 1
 fi
 
@@ -26,7 +31,7 @@ read -p "Skip installing build dependencies? (Saying yes will skip to building)?
 
 if ! [[ "$SKIP" =~ [Yy] ]]; then
     sudo yum install -y @development-tools @gnome-software-development
-    sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils xorg-x11-xtrans-devel avahi-gobject-devel libdvdread-devel
+    sudo yum install -y dotconf-devel exiv2-devel spice-protocol gtkspell3-devel gc-devel python-rdflib bogofilter spamassassin libunistring-devel gpgme-devel file-devel espeak-devel ppp-devel cracklib-devel cups-devel mpfr-devel libwebp-devel wireless-tools-devel ppp mpfr ragel cracklib cups gperf libtool-ltdl-devel intltool mozjs17-devel libnl3-devel libuuid-devel mtdev-devel libusb-devel lcms2-devel libatasmart-devel libsndfile-devel json-c-devel libvorbis-devel gmime-devel libxslt-devel python3-cairo-devel libarchive-devel cairomm-devel libXtst-devel libXt-devel xkeyboard-config-devel xorg-x11-drv-wacom-devel icon-naming-utils xorg-x11-xtrans-devel avahi-gobject-devel libdvdread-devel nettle nettle-devel
 fi
 
 if [ -d ~/gitclone ]; then
