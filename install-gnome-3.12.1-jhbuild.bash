@@ -84,7 +84,7 @@ __EOF__
 
 echo "$VAR" > ~/.config/jhbuildrc
 
-if [ $WEBKIT =~ [Yy] ]; then
+if [[ "$WEBKIT" =~ [Yy] ]]; then
     echo "skip = ['WebKit'] # required for Epiphany but not basic gnome-shell" >> ~/.config/jhbuildrc
 fi
 
