@@ -46,7 +46,10 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
 #
 # Save settings
 #
- /sbin/service iptables save
+# /sbin/service iptables save
+
+# This works for Fedora/CentOS!
+iptables-save > /etc/sysconfig/iptables
 
 #
 # List rules
