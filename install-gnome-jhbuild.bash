@@ -77,7 +77,7 @@ fi
 
 
 mkdir -p ~/.config
-read -r -d '' VAR << "__EOF__"
+read -r -d '' VAR << __EOF__
 
 # -*- mode: python -*-
 # -*- coding: utf-8 -*-
