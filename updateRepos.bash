@@ -5,7 +5,7 @@
 declare -a ignoreList=('webgoat' 'django$' 'practice' 'linux$' 'linux\-stable$' 'wordament' 'infa719' 'jhbuild')
 
 # this list the repos will be pulled but never pushed
-declare -a pushIgnoreList=('updf' 'rtl8188ce' 'openssl' 'doxygen' 'YouCompleteMe' 'mkinitcpio')
+declare -a pushIgnoreList=('updf' 'rtl8188ce' 'openssl' 'doxygen' 'YouCompleteMe' 'mkinitcpio' 'canvas')
 
 
 # color variables to make it a lot easier to use color
