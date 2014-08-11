@@ -2,10 +2,10 @@
 
 # Ignore repos (grep regex)
 # these repos will be ignored altogether
-declare -a ignoreList=('ubuntu' 'webgoat' 'django$' 'practice' 'linux$' 'linux\-stable$' 'wordament' 'infa719' 'jhbuild')
+declare -a ignoreList=('canvas' 'ubuntu' 'webgoat' 'django$' 'practice' 'linux$' 'linux\-stable$' 'wordament' 'infa719' 'jhbuild')
 
 # this list the repos will be pulled but never pushed
-declare -a pushIgnoreList=('cower' 'updf' 'rtl8188ce' 'openssl' 'doxygen' 'YouCompleteMe' 'mkinitcpio' 'canvas')
+declare -a pushIgnoreList=('cower' 'updf' 'rtl8188ce' 'openssl' 'doxygen' 'YouCompleteMe' 'mkinitcpio')
 
 push_enabled=1
 
