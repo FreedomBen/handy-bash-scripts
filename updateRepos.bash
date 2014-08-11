@@ -7,6 +7,7 @@ declare -a ignoreList=('ubuntu' 'webgoat' 'django$' 'practice' 'linux$' 'linux\-
 # this list the repos will be pulled but never pushed
 declare -a pushIgnoreList=('cower' 'updf' 'rtl8188ce' 'openssl' 'doxygen' 'YouCompleteMe' 'mkinitcpio' 'canvas')
 
+push_enabled=1
 
 # color variables to make it a lot easier to use color
 color_restore='\033[0m'
@@ -55,9 +56,10 @@ hasPushes ()
 }
 
 if [[ $@ =~ [pP] ]]; then
-    echo "Push enabled"
+    echo "Push disabled"
+    push_enabled=0
 else
-    echo "Push disabled (rerun with -p|--push to enable)"
+    echo "Push enabled (rerun with -p|--push to disable)"
 fi
 
 for file in $(find . -maxdepth 1 -type d)
@@ -75,7 +77,7 @@ do
                 git stash save "saved-by-update-files-script" > /dev/null && dopop=1
             fi
 
-            if [[ $@ =~ [pP] ]] ; then
+            if (( push_enabled )) ; then
                 if ! onPushIgnoreList "${file}"; then
                     if hasPushes; then
                         git pull --rebase && git push
