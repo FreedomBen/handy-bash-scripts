@@ -17,10 +17,13 @@ echo "Creating list file at $OUT"
 touch $OUT
 
 echo "Downloading iBlocklist Level 1..."
-curl -L --silent http://list.iblocklist.com/?list=bt_level1 | gunzip -c > $OUT
+curl -L http://list.iblocklist.com/?list=bt_level1 > bt1.gz
 echo "Downloading iBlocklist Level 2..."
-curl -L --silent http://list.iblocklist.com/?list=bt_level2 | gunzip -c >> $OUT
+curl -L http://list.iblocklist.com/?list=bt_level2 > bt2.gz
 echo "Downloading iBlocklist Level 3..."
-curl -L --silent http://list.iblocklist.com/?list=bt_level3 | gunzip -c >> $OUT
+curl -L http://list.iblocklist.com/?list=bt_level3 > bt3.gz
+gunzip -c bt1.gz > $OUT
+gunzip -c bt2.gz >> $OUT
+gunzip -c bt3.gz >> $OUT
  
 echo "Done."
