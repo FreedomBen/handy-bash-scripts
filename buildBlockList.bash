@@ -22,8 +22,10 @@ echo "Downloading iBlocklist Level 2..."
 curl -L http://list.iblocklist.com/?list=bt_level2 > bt2.gz
 echo "Downloading iBlocklist Level 3..."
 curl -L http://list.iblocklist.com/?list=bt_level3 > bt3.gz
+
 gunzip -c bt1.gz > $OUT
 gunzip -c bt2.gz >> $OUT
 gunzip -c bt3.gz >> $OUT
+rm bt{1..3}.gz
  
 echo "Done."
